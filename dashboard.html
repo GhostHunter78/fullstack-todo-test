@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dashboard Page</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script type="module" src="./JS/api/getTasks.js"></script>
+        <script type="module" src="./JS/api/deleteTask.js"></script>
+        <script type="module" src="./JS/api/createTask.js"></script>
+        <script type="module" src="./JS/api/completeTask.js"></script>
+        <script type="module" src="./JS/api/getUserProfile.js"></script>
+        <script type="module" src="./JS/auth/logout.js"></script>
+        <style>
+            .task {
+                max-width: 700px;
+                border: 1px solid #ddd;
+                padding: 10px;
+                margin: 10px 0;
+                border-radius: 5px;
+                background-color: #f9f9f9;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .icons-div {
+                display: flex;
+                gap: 5px;
+            }
+
+            .icon {
+                width: 27px;
+                height: 23px;
+            }
+
+            .completed {
+                background-color: lightgreen;
+            }
+        </style>
+    </head>
+    <body
+        class="h-screen w-screen flex items-center justify-center gap-x-6 bg-gray-300 relative"
+    >
+        <div class="absolute top-4 left-4 flex gap-4">
+            <div class="flex flex-col gap-2 relative">
+                <button
+                    id="filter-button"
+                    class="relative bg-purple-500 w-[200px] text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition duration-200"
+                >
+                    Filter by priorities
+                </button>
+                <div
+                    id="filter-div"
+                    class="bg-purple-500 rounded-lg px-4 py-3 max-w-[200px] hidden"
+                >
+                    <select
+                        id="filter-select"
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 mb-4 focus:outline-none cursor-pointer"
+                    >
+                        <option value="All">All</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                    <button
+                        id="filter-apply-button"
+                        class="bg-white w-full text-black px-4 py-2 rounded-lg hover:bg-black hover:text-white transition duration-200"
+                    >
+                        Filter tasks
+                    </button>
+                </div>
+            </div>
+            <div class="flex flex-col gap-2 relative">
+                <button
+                    id="sort-button"
+                    class="relative bg-purple-500 w-[200px] text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition duration-200"
+                >
+                    Sort by date
+                </button>
+                <div
+                    id="sort-div"
+                    class="bg-purple-500 rounded-lg px-4 py-3 max-w-[200px] hidden"
+                >
+                    <select
+                        id="sort-select"
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 mb-4 focus:outline-none cursor-pointer"
+                    >
+                        <option value="custom">custom</option>
+                        <option value="DESC">Descending</option>
+                        <option value="ASC">Ascending</option>
+                    </select>
+                    <button
+                        id="sort-apply-button"
+                        class="bg-white w-full text-black px-4 py-2 rounded-lg hover:bg-black hover:text-white transition duration-200"
+                    >
+                        Sort tasks
+                    </button>
+                </div>
+            </div>
+        </div>
+        <button
+            id="logout-button"
+            class="absolute top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200"
+        >
+            Log Out
+        </button>
+        <div
+            class="max-w-[400px] min-h-[400px] bg-blue-200 px-4 py-4 rounded-lg mb-4"
+        >
+            <h3 class="text-[32px] font-bold text-center">Create your task</h3>
+            <input
+                type="text"
+                id="create-task-input"
+                placeholder="Enter your task here..."
+                class="w-full px-4 py-2 rounded-lg border border-gray-300 mb-5 focus:outline-none focus:ring-2 focus:ring-yellow-200 mt-4"
+            />
+            <label class="text-[16px] text-gray-500"
+                >Please, select task's priority</label
+            >
+            <select
+                id="task-priority-select"
+                class="w-full px-4 py-2 rounded-lg border border-gray-300 mt-1 mb-4 focus:outline-none focus:ring-2 focus:ring-yellow-200"
+            >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+            <button
+                id="create-task-button"
+                class="w-full bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition duration-200"
+            >
+                Create task
+            </button>
+        </div>
+        <div
+            class="min-w-[400px] min-h-[400px] bg-yellow-200 px-4 py-4 rounded-lg mb-4"
+        >
+            <h3
+                class="text-[32px] font-bold text-center"
+                id="greeting-to-user"
+            ></h3>
+            <h4 class="text-center" id="description"></h4>
+            <div class="bg-red-500 px-4 py-4 rounded-lg mt-6">
+                <div class="cursor-pointer" id="tasks-container">
+                    <p>Loading tasks...</p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

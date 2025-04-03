@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Login Page</title>
+    </head>
+    <body>
+        <div class="w-screen h-screen flex justify-center items-center">
+            <div class="w-[400px] bg-yellow-100 rounded-lg px-4 py-4 mb-4">
+                <h2 class="text-primary text-[20px] text-center mb-3">Login</h2>
+                <form id="login-form" class="w-full flex flex-col items-center">
+                    <div class="w-full flex flex-col mb-3">
+                        <label class="text-primary text-[16px] mb-1"
+                            >Username</label
+                        >
+                        <input
+                            required
+                            name="username"
+                            id="username"
+                            class="rounded-lg px-2 py-2"
+                            type="text"
+                            placeholder="Please, enter your username"
+                        />
+                    </div>
+                    <div class="w-full flex flex-col mb-5">
+                        <label class="text-primary text-[16px] mb-1"
+                            >Password</label
+                        >
+                        <input
+                            required
+                            name="password"
+                            id="password"
+                            class="rounded-lg px-2 py-2"
+                            type="password"
+                            placeholder="Please, enter your password"
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        class="text-white text-[18px] rounded-lg bg-blue-500 w-full px-3 py-3 mb-4"
+                    >
+                        Login
+                    </button>
+                    <h1>Don't have an account yet?</h1>
+                    <a class="text-blue-500" href="/registration">Register</a>
+                </form>
+            </div>
+            <p id="message" class="text-red-500 text-center mb-2"></p>
+        </div>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="./JS/main.js" type="module"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            primary: "#000000",
+                        },
+                    },
+                },
+            };
+        </script>
+    </body>
+</html>
