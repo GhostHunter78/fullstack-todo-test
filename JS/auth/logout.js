@@ -7,6 +7,7 @@ export function logout() {
         try {
             localStorage.removeItem("token");
             localStorage.removeItem("role");
+            localStorage.removeItem("selectedFilter");
 
             setTimeout(() => {
                 window.location.href = "index.html";
