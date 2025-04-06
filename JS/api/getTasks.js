@@ -1,6 +1,7 @@
 import { backupTaskStatus } from "./backupTaskStatus.js";
 import { completeTask } from "./completeTask.js";
 import { deleteTask } from "./deleteTask.js";
+import { editTaskData } from "./editTaskData.js";
 
 window.tasksData = [];
 
@@ -76,6 +77,72 @@ export function displayTasks(tasks) {
             `
     )
     .join("");
+
+  let currentEditBox = null;
+
+  document.querySelectorAll(".edit-icon").forEach((icon) => {
+    icon.addEventListener("click", async (event) => {
+      event.stopPropagation();
+      if (currentEditBox) {
+        currentEditBox.parentElement.removeChild(currentEditBox);
+        currentEditBox = null;
+      }
+
+      const taskElement = event.target.closest(".task");
+      const editBox = document.createElement("div");
+      editBox.classList.add("edit-box");
+      editBox.innerHTML = `
+      <div class="edit-box-inputs-div">
+        <input id="edit-taskName-input" type="text" class="edit-input" placeholder="Edit task name" required />
+        <input id="edit-taskPriority-input" type="number" class="edit-input" placeholder="Edit task priority" required />
+        </div>
+        <div class="icons-div">
+        <img alt="save task" class="icon save-icon" src="./icons/save-svgrepo-com.svg" />
+        <img alt="cancel" class="icon cancel-icon" src="./icons/cancel-svgrepo-com.svg" />
+          </div>
+      `;
+      taskElement.appendChild(editBox);
+      currentEditBox = editBox;
+
+      const taskId = taskElement.getAttribute("data-id");
+      const saveIcon = editBox.querySelector(".save-icon");
+      const cancelIcon = editBox.querySelector(".cancel-icon");
+
+      editBox.addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
+
+      cancelIcon.addEventListener("click", () => {
+        taskElement.removeChild(editBox);
+        currentEditBox = null;
+      });
+
+      saveIcon.addEventListener("click", () => {
+        const editTaskNameInput = editBox.querySelector("#edit-taskName-input");
+        const editedTaskName = editTaskNameInput.value;
+        const editTaskPriorityInput = editBox.querySelector(
+          "#edit-taskPriority-input"
+        );
+        const editedTaskPriority = editTaskPriorityInput.value;
+
+        editTaskData(taskId, editedTaskPriority, editedTaskName);
+
+        setTimeout(() => {
+          if (editBox.parentElement) {
+            taskElement.removeChild(editBox);
+            currentEditBox = null;
+          }
+        }, 1000);
+      });
+    });
+  });
+
+  document.addEventListener("click", () => {
+    if (currentEditBox && currentEditBox.parentElement) {
+      currentEditBox.parentElement.removeChild(currentEditBox);
+      currentEditBox = null;
+    }
+  });
 
   document.querySelectorAll(".check-icon").forEach((icon) => {
     icon.addEventListener("click", async (event) => {

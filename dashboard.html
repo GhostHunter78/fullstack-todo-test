@@ -13,6 +13,7 @@
     <script type="module" src="./JS/auth/logout.js"></script>
     <style>
       .task {
+        position: relative;
         max-width: 700px;
         border: 1px solid #ddd;
         padding: 10px;
@@ -35,6 +36,37 @@
 
       .completed {
         background-color: lightgreen;
+      }
+
+      .edit-box {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: purple;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        z-index: 100;
+        width: 100%;
+        height: 148px;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      .edit-box-inputs-div {
+        max-width: 75%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+      }
+      .edit-box-inputs-div input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
       }
     </style>
   </head>
@@ -124,7 +156,9 @@
     >
       <h3 class="text-[32px] font-bold text-center" id="greeting-to-user"></h3>
       <h4 class="text-center" id="description"></h4>
-      <div class="bg-red-500 px-4 py-4 rounded-lg mt-6">
+      <div
+        class="bg-red-500 px-4 rounded-lg mt-6 max-h-[400px] overflow-y-auto"
+      >
         <div class="cursor-pointer" id="tasks-container">
           <p>Loading tasks...</p>
         </div>
